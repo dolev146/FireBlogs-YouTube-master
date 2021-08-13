@@ -1,27 +1,49 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigaion/>
+      <Navigation v-if="!navigation" />
       <router-view />
-      <Footer/>
+      <Footer v-if="!navigation" />
     </div>
   </div>
 </template>
 
 <script>
-import Navigaion from './components/Navigation';
-import Footer from './components/Footer';
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 
 export default {
   name: "app",
-  components: {Navigaion,Footer},
+  components: { Navigation, Footer },
   data() {
-    return {};
+    return {
+      navigation: null,
+    };
   },
-  created() {},
+  created() {
+    this.checkRoute();
+  },
   mounted() {},
-  methods: {},
-  watch: {},
+  methods: {
+    checkRoute() {
+      console.log(this.navigation);
+      if (
+        this.$route.name === "Login" ||
+        this.$route.name === "Register" ||
+        this.$route.name === "ForgotPassword"
+      ) {
+        this.navigation = true;
+        console.log(this.navigation);
+        return;
+      }
+      this.navigation = false;
+    },
+  },
+  watch: {
+    $route() {
+      this.checkRoute();
+    },
+  },
 };
 </script>
 
@@ -57,36 +79,36 @@ export default {
   color: #fff;
 }
 
-
-.arrow{
+.arrow {
   margin-left: 8px;
   width: 12px;
-  path{
-    fill:#000;
+  path {
+    fill: #000;
   }
 }
 
-.arrow-light{
-  path{
-    fill:#fff;
+.arrow-light {
+  path {
+    fill: #fff;
   }
 }
 
-button, .router-button{
+button,
+.router-button {
   transition: 500ms ease all;
   cursor: pointer;
   margin-top: 24px;
   padding: 12px 24px;
-  background-color:#303030;
+  background-color: #303030;
   color: #fff;
   border-radius: 20px;
-  border:none;
+  border: none;
   text-transform: uppercase;
-  &:focus{
+  &:focus {
     outline: none;
   }
-  &:hover{
-    background-color: rgba(48,48,48, 0.7);
+  &:hover {
+    background-color: rgba(48, 48, 48, 0.7);
   }
 }
 
@@ -117,29 +139,33 @@ button, .router-button{
   background-color: rgba(128, 128, 128, 0.5) !important;
 }
 
-.blog-card-wrap{
-  position:relative;
+.error{
+  text-align: center;
+  font-size: 12px;
+  color: red;
+}
+
+.blog-card-wrap {
+  position: relative;
   padding: 80px 16px;
   background-color: #f1f1f1;
-  @media(min-width: 500px) {
-    padding:100px 16px;
+  @media (min-width: 500px) {
+    padding: 100px 16px;
   }
 
   .blog-cards {
     display: grid;
     gap: 32px;
     grid-template-columns: 1fr;
-    @media(min-width: 500px) {
-      grid-template-columns: repeat(2,1fr);
+    @media (min-width: 500px) {
+      grid-template-columns: repeat(2, 1fr);
     }
-    @media(min-width: 900px) {
-      grid-template-columns: repeat(3,1fr);
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
     }
-    @media(min-width: 1200px) {
-      grid-template-columns: repeat(4,1fr);
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 }
-
-
 </style>
